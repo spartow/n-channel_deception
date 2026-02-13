@@ -1,0 +1,187 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* N-Channel Deception Jamming Simulator Design System
+   Light theme with scientific visualization style */
+
+@layer base {
+  :root {
+    /* Light theme - clean scientific look */
+    --background: 210 20% 98%;
+    --foreground: 220 20% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 10%;
+
+    /* Teal/Cyan for primary/real channels */
+    --primary: 185 70% 40%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Amber for decoy channels */
+    --secondary: 38 90% 50%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 210 15% 92%;
+    --muted-foreground: 215 15% 45%;
+
+    --accent: 210 15% 95%;
+    --accent-foreground: 220 20% 10%;
+
+    --destructive: 0 72% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214 20% 85%;
+    --input: 214 20% 90%;
+    --ring: 185 70% 40%;
+
+    --radius: 0.5rem;
+
+    /* Custom colors for channels */
+    --real-channel: 185 70% 45%;
+    --real-channel-glow: 185 80% 55%;
+    --decoy-channel: 38 90% 50%;
+    --decoy-channel-glow: 38 95% 60%;
+    --inactive-channel: 220 10% 75%;
+    --jammer: 340 70% 50%;
+    --jammer-glow: 340 80% 60%;
+    
+    /* Chart colors */
+    --chart-grid: 220 15% 90%;
+    --chart-axis: 215 15% 55%;
+    
+    /* Shadows */
+    --shadow-glow-cyan: 0 4px 14px hsl(185 70% 45% / 0.25);
+    --shadow-glow-amber: 0 4px 14px hsl(38 90% 50% / 0.25);
+
+    --sidebar-background: 210 15% 96%;
+    --sidebar-foreground: 220 20% 10%;
+    --sidebar-primary: 185 70% 40%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 15% 92%;
+    --sidebar-accent-foreground: 220 20% 10%;
+    --sidebar-border: 214 20% 88%;
+    --sidebar-ring: 185 70% 40%;
+  }
+
+  .dark {
+    --background: 220 20% 6%;
+    --foreground: 210 20% 92%;
+    --card: 220 18% 10%;
+    --card-foreground: 210 20% 92%;
+    --popover: 220 18% 12%;
+    --popover-foreground: 210 20% 92%;
+    --primary: 185 80% 50%;
+    --primary-foreground: 220 20% 6%;
+    --secondary: 38 92% 55%;
+    --secondary-foreground: 220 20% 6%;
+    --muted: 220 15% 18%;
+    --muted-foreground: 215 15% 55%;
+    --accent: 220 15% 22%;
+    --accent-foreground: 210 20% 92%;
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 220 15% 20%;
+    --input: 220 15% 18%;
+    --ring: 185 80% 50%;
+    --real-channel: 185 80% 50%;
+    --decoy-channel: 38 92% 55%;
+    --inactive-channel: 220 10% 30%;
+    --jammer: 340 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+  
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground));
+  }
+}
+
+@layer components {
+  /* Panel styling */
+  .panel {
+    @apply bg-card border border-border rounded-lg shadow-sm;
+  }
+  
+  .panel-header {
+    @apply px-4 py-3 border-b border-border font-mono text-sm font-medium uppercase tracking-wider text-muted-foreground bg-muted/30;
+  }
+  
+  /* Data display */
+  .data-value {
+    @apply font-mono text-2xl font-bold;
+  }
+  
+  .data-label {
+    @apply text-xs uppercase tracking-wider text-muted-foreground;
+  }
+  
+  /* Channel indicators */
+  .channel-real {
+    @apply bg-real-channel;
+  }
+  
+  .channel-decoy {
+    @apply bg-decoy-channel;
+  }
+  
+  .channel-inactive {
+    @apply bg-inactive-channel;
+  }
+
+  /* Animated bar */
+  .bar-animated {
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  
+  /* Pulse on change */
+  .value-changed {
+    animation: value-pulse 0.5s ease-out;
+  }
+  
+  @keyframes value-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+  
+  /* Live indicator */
+  .live-indicator {
+    @apply inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium;
+  }
+  
+  .live-indicator::before {
+    content: '';
+    @apply w-2 h-2 rounded-full bg-emerald-500 animate-pulse;
+  }
+}
